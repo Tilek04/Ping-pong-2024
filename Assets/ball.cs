@@ -24,7 +24,7 @@ public class ball : MonoBehaviour
         Vector2 newBallVector = new Vector2();
         newBallVector.x = Random.Range(-1f, 1f);
         newBallVector.y = Random.Range(-1f, 1f);
-        rigidbody2D.velocity = newBallVector * Speed;
+        rigidbody2D.velocity = newBallVector.normalized * Speed;
     }
 
     // Update is called once per frame
@@ -35,4 +35,24 @@ public class ball : MonoBehaviour
             sendBallRandomDirection();
         }  
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Movement>() == null)
+            return;
+        collision.gameObject.GetComponent<Movement>().speed *= 1.1f;
+        rigidbody2D.velocity *= 1.1f;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (transform.position.x > 0)
+        {
+            Debug.Log("Player Left +1");
+        }
+        else {
+            Debug.Log("Player Right +1");
+        }
+    }
 }
+
+
